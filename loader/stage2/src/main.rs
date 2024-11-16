@@ -1,14 +1,7 @@
 #![no_std]
 #![no_main]
-#![feature(start)]
 
 use core::{arch::asm, panic::PanicInfo};
-
-#[no_mangle]
-pub extern "C" fn rust_main() -> ! {
-    // Your Rust code here
-    loop {}
-}
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {
@@ -16,7 +9,7 @@ fn panic(_info: &PanicInfo) -> ! {
     loop {}
 }
 
-#[start]
-fn _start() -> ! {
-    rust_main()
+#[no_mangle]
+pub extern "C" fn _start() -> ! {
+    loop {}
 }
