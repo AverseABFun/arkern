@@ -1,0 +1,10 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "loader/stage2/Cargo.toml"
+    ],
+    "rust-analyzer.cargo.allTargets": false,
+    "rust-analyzer.cargo.extraArgs": [
+        "--target",
+        "x86_64-unknown-none"
+    ]
+}
