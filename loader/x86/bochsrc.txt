@@ -1,0 +1,3 @@
+floppya: 1_44=loader, status=inserted
+plugin_ctrl: speaker=0
+magic_break: enabled=1

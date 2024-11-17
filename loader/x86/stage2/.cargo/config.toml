@@ -1,0 +1,9 @@
+[build]
+target = "x86_64-arkern.json"
+
+[unstable]
+build-std-features = ["compiler-builtins-mem"]
+build-std = ["core", "compiler_builtins"]
+
+[target.x86_64-arkern]
+rustflags = "-C link-arg=-Tld.lld"

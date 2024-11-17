@@ -1,0 +1,50 @@
+OUTPUT_FORMAT(binary)
+ENTRY(_start)  /* Your entry point symbol */
+
+SECTIONS
+{
+    /* Code section */
+    . = 0x7E00;        /* Default load address for executables */
+
+    .text : {
+        *(.start*)
+        *(.text*)        /* Include all .text sections */
+    }
+
+    /* Read-only data */
+    .rodata : {
+        *(.rodata*)      /* Include all .rodata sections */
+    }
+
+    /* Data section */
+    .data : {
+        *(.data*)        /* Include all .data sections */
+    }
+
+    /* Uninitialized data */
+    .bss : {
+        *(.bss*)         /* Include all .bss sections */
+        *(COMMON)        /* Common symbols go here too */
+    }
+
+    /* Optional stack and heap (if needed) */
+    .stack (NOLOAD) : {
+        . = ALIGN(16);
+        PROVIDE(_stack_start = .);
+        . += 0x10000;     /* 64KB stack */
+        PROVIDE(_stack_end = .);
+    }
+
+    .heap (NOLOAD) : {
+        . = ALIGN(16);
+        PROVIDE(_heap_start = .);
+        . += 0x10000;     /* 64KB heap */
+        PROVIDE(_heap_end = .);
+    }
+
+    /DISCARD/ : {        /* Discard unnecessary sections */
+        *(.note*)
+        *(.comment)
+        *(.eh_frame)
+    }
+}

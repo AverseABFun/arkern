@@ -1,0 +1,8 @@
+[package]
+name = "stage2"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+# no need for panic = 'abort', this is specified in the target json file(x86_64-arkern.json) and might be changed in the future

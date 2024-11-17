@@ -1,11 +1,17 @@
 {
     "rust-analyzer.linkedProjects": [
-        "loader/stage2/Cargo.toml"
+        "loader/x86/stage2/Cargo.toml"
     ],
     "rust-analyzer.cargo.allTargets": false,
     "rust-analyzer.cargo.extraArgs": [
         "--target",
         "x86_64-unknown-none"
     ],
-    "workbench.editor.defaultBinaryEditor": "hexEditor.hexedit"
+    "workbench.editor.defaultBinaryEditor": "hexEditor.hexedit",
+    "workbench.editorAssociations": {
+        "{hexdiff}:/**/*.*": "hexEditor.hexedit",
+        "stage2": "hexEditor.hexedit",
+        "stage1.bin": "hexEditor.hexedit",
+        "loader": "hexEditor.hexedit"
+    }
 }

@@ -23,6 +23,6 @@ Cargo.lock
 #.idea/
 
 # Built files:
-loader/loader
-loader/bios/stage1.bin
-loader/stage2/stage2
+loader/x86/loader
+loader/x86/bios/stage1.bin
+loader/x86/stage2/stage2
