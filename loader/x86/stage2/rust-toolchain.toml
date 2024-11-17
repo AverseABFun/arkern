@@ -1,2 +1,2 @@
 [toolchain]
-channel = "nightly"
+channel = "nightly" # honestly no clue if this is necessary, but it probably soon will be

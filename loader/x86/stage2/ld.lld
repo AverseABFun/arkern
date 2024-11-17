@@ -1,33 +1,32 @@
-OUTPUT_FORMAT(binary)
-ENTRY(_start)  /* Your entry point symbol */
+OUTPUT_FORMAT(binary) /* get that ELF crap out of here! this is flat land! */
+ENTRY(_start)  /* entry point */
 
 SECTIONS
 {
-    /* Code section */
-    . = 0x7E00;        /* Default load address for executables */
+    /* code */
+    . = 0x7E00;          /* loaded right after stage 1 */
 
     .text : {
         *(.start*)
-        *(.text*)        /* Include all .text sections */
+        *(.text*)        /* add the default .text sections */
     }
 
-    /* Read-only data */
+    /* read-only data */
     .rodata : {
-        *(.rodata*)      /* Include all .rodata sections */
+        *(.rodata*)
     }
 
-    /* Data section */
+    /* read-write data */
     .data : {
-        *(.data*)        /* Include all .data sections */
+        *(.data*)
     }
 
-    /* Uninitialized data */
+    /* uninitialized data */
     .bss : {
-        *(.bss*)         /* Include all .bss sections */
-        *(COMMON)        /* Common symbols go here too */
+        *(.bss*)
+        *(COMMON)        /* common symbols go here too */
     }
 
-    /* Optional stack and heap (if needed) */
     .stack (NOLOAD) : {
         . = ALIGN(16);
         PROVIDE(_stack_start = .);
@@ -42,7 +41,7 @@ SECTIONS
         PROVIDE(_heap_end = .);
     }
 
-    /DISCARD/ : {        /* Discard unnecessary sections */
+    /DISCARD/ : {        /* discard unnecessary sections */
         *(.note*)
         *(.comment)
         *(.eh_frame)

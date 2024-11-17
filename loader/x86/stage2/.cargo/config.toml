@@ -1,9 +1,11 @@
 [build]
-target = "x86_64-arkern.json"
+target = "x86_64-arkern.json" # set the target to the custom one
 
-[unstable]
+[unstable] # add the, essentially, std of nostd land
 build-std-features = ["compiler-builtins-mem"]
 build-std = ["core", "compiler_builtins"]
 
 [target.x86_64-arkern]
-rustflags = "-C link-arg=-Tld.lld"
+rustflags = "-C link-arg=-Tld.lld -C opt-level=1" # need the opt level >1 for the panic strings to be removed
+                                                  # we don't need from the executable. and, of course, we need to include our
+                                                  # linker script.
