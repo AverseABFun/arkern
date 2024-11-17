@@ -38,21 +38,17 @@ unsafe fn letter_to_screen(offset: usize, letter: u8, text_color: u8, background
 }
 
 unsafe fn calculated_letter_to_screen(offset: usize, letter: u8, calculated_color: u8) {
-    let mut ptr = (0xB8000 + offset) as *mut u8;
-    write_volatile(ptr, letter);
-    ptr = ptr.wrapping_add(1);
-    write_volatile(ptr, calculated_color);
+    if offset % 2 == 1 {
+        return;
+    }
+    let ptr = (0xB8000 + offset) as *mut u16;
+    let data = (letter as u16) | ((calculated_color as u16) << 8);
+    write_volatile(ptr, data);
 }
 
 unsafe fn clear_screen(letter: u8, text_color: u8, background_color: u8) {
-    let mut offset: usize = 1;
-    loop {
-        if offset > 5000 {
-            break;
-        }
-        letter_to_screen(offset, letter, text_color, background_color);
-        offset += 3;
-    }
+    let calculated_color: u8 = ((background_color as u8) << 4) | (text_color as u8);
+    calculated_clear_screen(letter, calculated_color);
 }
 
 unsafe fn calculated_clear_screen(letter: u8, calculated_color: u8) {
@@ -62,7 +58,7 @@ unsafe fn calculated_clear_screen(letter: u8, calculated_color: u8) {
             break;
         }
         calculated_letter_to_screen(offset, letter, calculated_color);
-        offset += 2;
+        offset += 1;
     }
 }
 
