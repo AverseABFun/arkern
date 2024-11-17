@@ -3,14 +3,14 @@
 clean:
 	rm -f loader
 	$(MAKE) -C bios clean
-	$(MAKE) -C stage2 clean
+	$(MAKE) -C bios/stage2 clean
 
 bios:
 	rm -f loader
 	$(MAKE) -C bios stage1.bin
-	$(MAKE) -C stage2 stage2
+	$(MAKE) -C bios/stage2 stage2
 	cp bios/stage1.bin loader
-	cat stage2/stage2 >> loader
+	cat bios/stage2/stage2 >> loader
 
 bios-emulate:
 	bochs -f bochsrc.txt -q -rc bios/auto-continue.txt

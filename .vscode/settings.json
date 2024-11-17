@@ -1,6 +1,6 @@
 {
     "rust-analyzer.linkedProjects": [
-        "loader/x86/stage2/Cargo.toml"
+        "loader/x86/bios/stage2/Cargo.toml"
     ],
     "rust-analyzer.cargo.allTargets": false,
     "rust-analyzer.cargo.extraArgs": [

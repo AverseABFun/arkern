@@ -6,8 +6,13 @@ use core::{arch::asm, panic::PanicInfo, ptr::write_volatile};
 #[no_mangle]
 #[link_section = ".start"] // probably a better way to do this, but oh well!
 pub unsafe extern "C" fn _start() -> ! {
-    calculated_clear_screen(b'A', 0x1f);
-    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    clear_screen(b' ', VideoBufferColor::White, VideoBufferColor::Black); // clear the screen
+    string_to_screen(
+        0,
+        b"Arkern booting via BIOS...",
+        VideoBufferColor::White,
+        VideoBufferColor::Black,
+    );
     halt()
 }
 
@@ -32,7 +37,30 @@ enum VideoBufferColor {
     White = 15,
 }
 
-unsafe fn letter_to_screen(offset: usize, letter: u8, text_color: u8, background_color: u8) {
+unsafe fn string_to_screen(
+    starting_offset: usize,
+    str: &[u8],
+    text_color: VideoBufferColor,
+    background_color: VideoBufferColor,
+) {
+    let mut offset: usize = starting_offset;
+    let mut index: usize = 0;
+    loop {
+        if index >= str.len() {
+            break;
+        }
+        letter_to_screen(offset, str[index], text_color, background_color);
+        offset += 1;
+        index += 1
+    }
+}
+
+unsafe fn letter_to_screen(
+    offset: usize,
+    letter: u8,
+    text_color: VideoBufferColor,
+    background_color: VideoBufferColor,
+) {
     let color: u8 = ((background_color as u8) << 4) | (text_color as u8);
     calculated_letter_to_screen(offset, letter, color)
 }
@@ -46,7 +74,11 @@ unsafe fn calculated_letter_to_screen(offset: usize, letter: u8, calculated_colo
     write_volatile(ptr, data);
 }
 
-unsafe fn clear_screen(letter: u8, text_color: u8, background_color: u8) {
+unsafe fn clear_screen(
+    letter: u8,
+    text_color: VideoBufferColor,
+    background_color: VideoBufferColor,
+) {
     let calculated_color: u8 = ((background_color as u8) << 4) | (text_color as u8);
     calculated_clear_screen(letter, calculated_color);
 }
