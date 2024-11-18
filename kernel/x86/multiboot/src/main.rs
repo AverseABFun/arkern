@@ -1,32 +1,24 @@
 #![no_std]
 #![no_main]
+#![feature(naked_functions)]
 
 use core::{
-    arch::{asm, global_asm},
+    arch::{asm, naked_asm},
     panic::PanicInfo,
     ptr::write_volatile,
 };
 
-global_asm! {
-    "/* Declare constants for the multiboot header. */
-.set ALIGN,    1<<0             /* align loaded modules on page boundaries */
-.set MEMINFO,  1<<1             /* provide memory map */
-.set FLAGS,    ALIGN | MEMINFO  /* this is the Multiboot 'flag' field */
-.set MAGIC,    0x1BADB002       /* 'magic number' lets bootloader find the header */
-.set CHECKSUM, -(MAGIC + FLAGS) /* checksum of above, to prove we are multiboot */
-
-/* 
-Declare a multiboot header that marks the program as a kernel. These are magic
-values that are documented in the multiboot standard. The bootloader will
-search for this signature in the first 8 KiB of the kernel file, aligned at a
-32-bit boundary. The signature is in its own section so the header can be
-forced to be within the first 8 KiB of the kernel file.
-*/
-.section .multiboot
-.align 4
-.long MAGIC
-.long FLAGS
-.long CHECKSUM"
+#[naked]
+#[no_mangle]
+#[link_section = ".multiboot"]
+pub unsafe extern "C" fn multiboot_header() {
+    naked_asm!(
+        ".align 4",
+        ".long 0x1BADB002", // Magic number
+        ".long 0x03",       // Flags (e.g., aligned modules)
+        ".long {checksum}", // Checksum (-(magic + flags))
+        checksum = const -(0x1BADB002i32 + 0b11i32),
+    );
 }
 
 #[no_mangle]
