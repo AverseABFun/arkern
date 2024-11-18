@@ -25,4 +25,4 @@ Cargo.lock
 # Built files:
 loader/x86/loader
 loader/x86/bios/stage1.bin
-loader/x86/stage2/stage2
+loader/x86/bios/stage2/stage2

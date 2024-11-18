@@ -44,14 +44,9 @@ unsafe fn string_to_screen(
     background_color: VideoBufferColor,
 ) {
     let mut offset: usize = starting_offset;
-    let mut index: usize = 0;
-    loop {
-        if index >= str.len() {
-            break;
-        }
-        letter_to_screen(offset, str[index], text_color, background_color);
-        offset += 1;
-        index += 1
+    for char in str {
+        letter_to_screen(offset, *char, text_color, background_color);
+        offset += 2;
     }
 }
 
