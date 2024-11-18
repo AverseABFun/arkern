@@ -11,4 +11,4 @@ clean:
 stage2: src/* i686-arkern.json .cargo/* Cargo.toml rust-toolchain.toml ld.lld # lots of files that cargo depends on, oh well
 	cargo build # build it
 	rm -f stage2 # clean out the junk
-	cp target/i686-arkern/debug/stage2 stage2 # copy this long path
+	cp target/i686-arkern/debug/arkern-kernel-core kernel # copy this long path

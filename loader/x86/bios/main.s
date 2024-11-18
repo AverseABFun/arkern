@@ -52,7 +52,7 @@ load_sectors:
     cld
     ; start putting in values:
     mov ah, 2h    ; int13h function 2
-    mov al, 63    ; we want to read 63 sectors
+    mov al, 64    ; we want to read 64 sectors
     mov ch, 0     ; from cylinder number 0
     mov cl, 2     ; the sector number 2 - second sector (starts from 1, not 0)
     mov dh, 0     ; head number 0
